@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pétalos de Rosa</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000000;
+      position: relative;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .petal {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #ff4d4d 30%, #d92626 90%);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 10px rgba(216, 11, 11, 0.5);
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .message-box {
+      background: rgba(73, 64, 64, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(30, 12, 187, 0.555);
+    }
+
+    .button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .yes {
+      background-color: #bb1313;
+      color: white;
+    }
+
+    .no {
+      background-color: #0f45aa;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <audio id="background-music" autoplay loop>
+    <source src="Music (1).mp3" type="audio/mpeg">
+    Tu navegador no soporta la reproducción de audio.
+  </audio>
+  
+  <div class="message-box">
+    <p>¿Aceptas una cita el 13 de febrero?</p>
+    <button class="button yes" onclick="alert('¡Sabía que dirías que sí Beltre! ❤️')">Sí</button>
+    <button class="button no" onclick="changeToYes(this)">No</button>
+  </div>
+
+  <script>
+    const audio = document.getElementById("background-music");
+    audio.currentTime = 40; // Iniciar en 0:40 (40 segundos)
+
+    audio.addEventListener("timeupdate", function() {
+      if (audio.currentTime >= 84) { // Detener en 1:24 (84 segundos)
+        audio.pause();
+      }
+    });
+
+    function changeToYes(button) {
+      button.innerText = "Sí";
+      button.classList.remove("no");
+      button.classList.add("yes");
+      button.onclick = () => alert('¡Sabía que dirías que sí Beltre! ❤️');
+    }
+
+    const body = document.body;
+
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+
+      const size = Math.random() * 15 + 10;
+      const startX = Math.random() * window.innerWidth;
+      const duration = Math.random() * 3 + 5;
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size}px`;
+      petal.style.left = `${startX}px`;
+      petal.style.animationDuration = `${duration}s`;
+
+      body.appendChild(petal);
+
+      setTimeout(() => {
+        body.removeChild(petal);
+      }, duration * 1000);
+    }
+
+    function generatePetals() {
+      setInterval(() => {
+        createPetal();
+      }, 300);
+    }
+
+    generatePetals();
+  </script>
+</body>
+</html>
